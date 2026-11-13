@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aura - Secure Login</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
+body{min-height:100vh;background:#0f0c29;background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);display:flex;align-items:center;justify-content:center;padding:20px;overflow-x:hidden;position:relative}
+body::before{content:'';position:fixed;width:500px;height:500px;background:#ff6b6b;filter:blur(150px);opacity:0.35;top:-100px;left:-100px;border-radius:50%;animation:float 8s ease-in-out infinite}
+body::after{content:'';position:fixed;width:400px;height:400px;background:#4ecdc4;filter:blur(150px);opacity:0.3;bottom:-100px;right:-100px;border-radius:50%;animation:float 10s ease-in-out infinite reverse}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(30px)}}
+.card{position:relative;z-index:2;background:rgba(255,255,255,0.12);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.2);width:100%;max-width:430px;border-radius:28px;padding:38px 32px;box-shadow:0 25px 60px rgba(0,0,0,0.35);animation:slideUp 0.6s ease}
+@keyframes slideUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.logo{text-align:center;font-size:48px;margin-bottom:5px;filter:drop-shadow(0 5px 15px rgba(255,255,255,0.3))}
+h1{text-align:center;color:white;font-size:27px;font-weight:800;letter-spacing:-0.5px}
+.sub{text-align:center;color:rgba(255,255,255,0.7);font-size:13.5px;margin:6px 0 24px}
+label{font-weight:600;font-size:13px;color:white;display:block;margin:16px 0 7px;letter-spacing:0.3px}
+input{width:100%;padding:14px 16px;background:rgba(255,255,255,0.12);border:1.5px solid rgba(255,255,255,0.2);border-radius:14px;font-size:14.5px;color:white;outline:none;transition:0.3s}
+input::placeholder{color:rgba(255,255,255,0.5)}
+input:focus{background:rgba(255,255,255,0.18);border-color:#a78bfa;box-shadow:0 0 0 4px rgba(167,139,250,0.2)}
+.btn{width:100%;background:linear-gradient(135deg,#a78bfa,#ec4899);color:white;border:none;padding:15px;border-radius:14px;font-size:15.5px;font-weight:700;cursor:pointer;margin-top:24px;box-shadow:0 10px 25px rgba(236,72,153,0.35);transition:0.3s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 15px 30px rgba(236,72,153,0.45)}
+.btn:active{transform:scale(0.98)}
+.link{text-align:center;margin-top:18px;font-size:13.5px;color:rgba(255,255,255,0.8)}
+.link a{color:#f9a8d4;font-weight:700;cursor:pointer}
+.error{background:rgba(255,71,87,0.2);border:1px solid rgba(255,71,87,0.4);color:#fecaca;padding:11px;border-radius:11px;font-size:13px;text-align:center;margin-top:14px;display:none;backdrop-filter:blur(10px)}
+.success{background:rgba(16,185,129,0.2);border:1px solid rgba(16,185,129,0.4);color:#a7f3d0;padding:11px;border-radius:11px;font-size:13px;text-align:center;margin-top:14px;display:none}
+.hint{font-size:11.5px;color:rgba(255,255,255,0.6);margin-top:6px}
+.hidden{display:none}
+.avatar{width:88px;height:88px;background:linear-gradient(135deg,#a78bfa,#ec4899);color:white;font-size:38px;font-weight:800;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;box-shadow:0 10px 25px rgba(236,72,153,0.4);border:3px solid rgba(255,255,255,0.3)}
+.badge{background:rgba(16,185,129,0.25);border:1px solid rgba(16,185,129,0.4);color:#a7f3d0;padding:7px 14px;border-radius:20px;font-size:11.5px;font-weight:700;display:inline-block;margin:12px 0}
+.info{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);padding:16px;border-radius:16px;text-align:left;margin:14px 0;font-size:13.5px;line-height:2;color:white}
+.info b{color:#f9a8d4}
+.check-list{list-style:none;text-align:left;margin-top:12px}
+.check-list li{padding:10px 12px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.1);border-radius:12px;margin-bottom:8px;font-size:13px;color:white}
+.logout-btn{background:linear-gradient(135deg,#ef4444,#f97316)!important;box-shadow:0 10px 25px rgba(239,68,68,0.35)!important}
+.divider{display:flex;align-items:center;gap:12px;margin:18px 0;color:rgba(255,255,255,0.5);font-size:12px}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:rgba(255,255,255,0.2)}
+.footer{position:fixed;bottom:12px;left:0;right:0;text-align:center;color:rgba(255,255,255,0.4);font-size:11px;z-index:1}
+</style>
+</head>
+<body>
+
+<!-- REGISTER -->
+<div class="card" id="registerPage">
+<div class="logo">✨</div>
+<h1>Create Account</h1>
+<p class="sub">Join Aura - Your secure space</p>
+<label>👤 USERNAME</label>
+<input type="text" id="regUser" placeholder="e.g. jesima_2005">
+<label>📧 EMAIL</label>
+<input type="email" id="regEmail" placeholder="you@gmail.com">
+<label>🔒 PASSWORD</label>
+<input type="password" id="regPass" placeholder="Min 8 chars + 1 number">
+<p class="hint">✦ Must be 8+ characters & include at least 1 number</p>
+<div class="error" id="regError"></div>
+<div class="success" id="regSuccess"></div>
+<button class="btn" onclick="register()">Create Account →</button>
+<div class="divider">OR</div>
+<p class="link">Already have an account? <a onclick="showPage('loginPage')">Login</a></p>
+</div>
+
+<!-- LOGIN -->
+<div class="card hidden" id="loginPage">
+<div class="logo">🔐</div>
+<h1>Welcome Back</h1>
+<p class="sub">Login to enter your private dashboard</p>
+<label>👤 USERNAME OR EMAIL</label>
+<input type="text" id="loginUser" placeholder="Enter username or email">
+<label>🔒 PASSWORD</label>
+<input type="password" id="loginPass" placeholder="Enter your password">
+<div class="error" id="loginError"></div>
+<div class="success" id="loginSuccess"></div>
+<button class="btn" onclick="login()">Login →</button>
+<div class="divider">OR</div>
+<p class="link">New here? <a onclick="showPage('registerPage')">Create account</a></p>
+</div>
+
+<!-- DASHBOARD -->
+<div class="card hidden" id="dashboardPage" style="text-align:center">
+<div class="avatar" id="userAvatar">J</div>
+<h1 id="welcomeText" style="color:white">Welcome!</h1>
+<span class="badge">● AUTHENTICATED • PROTECTED PAGE</span>
+<div class="info">
+<b>👤 Username:</b> <span id="dashUser"></span><br>
+<b>📧 Email:</b> <span id="dashEmail"></span><br>
+<b>🕒 Login Time:</b> <span id="dashTime"></span><br>
+<b>🔒 Security:</b> SHA-256 Hashed Password
+</div>
+<p style="font-size:13px;color:rgba(255,255,255,0.7)">This page is protected. Without login, you can't access it.</p>
+<ul class="check-list">
+<li>✅ Registration with validation</li>
+<li>✅ Password: 8+ chars + 1 number</li>
+<li>✅ Duplicate user check</li>
+<li>✅ Generic login error</li>
+<li>✅ Protected Dashboard + Logout</li>
+<li>✅ SHA-256 Hashing - No plain text</li>
+</ul>
+<button class="btn logout-btn" onclick="logout()">Logout</button>
+</div>
+
+<p class="footer">Made with ❤️ for OIBSIP Level 3 Task 4 | Jesimasherin</p>
+
+<script>
+async function hashPassword(p){const e=new TextEncoder();const d=e.encode(p);const h=await crypto.subtle.digest('SHA-256',d);return Array.from(new Uint8Array(h)).map(b=>b.toString(16).padStart(2,'0')).join('')}
+function getUsers(){return JSON.parse(localStorage.getItem('users')||'[]')}
+function saveUsers(u){localStorage.setItem('users',JSON.stringify(u))}
+function showError(id,m){let e=document.getElementById(id);e.style.display='block';e.innerText=m}
+function hideError(id){document.getElementById(id).style.display='none'}
+function showSuccess(id,m){let e=document.getElementById(id);e.style.display='block';e.innerText=m}
+function showPage(id){['registerPage','loginPage','dashboardPage'].forEach(x=>document.getElementById(x).classList.add('hidden'));document.getElementById(id).classList.remove('hidden')}
+window.onload=function(){let s=localStorage.getItem('sessionUser');if(s){showDashboard(JSON.parse(s))}else{showPage('loginPage')}}
+async function register(){
+let u=document.getElementById('regUser').value.trim();
+let e=document.getElementById('regEmail').value.trim().toLowerCase();
+let p=document.getElementById('regPass').value;
+hideError('regError');document.getElementById('regSuccess').style.display='none';
+if(!u||!e||!p){showError('regError','All fields are required bruh!');return}
+if(!e.includes('@')||!e.includes('.')){showError('regError','Please enter a valid email!');return}
+if(p.length<8){showError('regError','Password must be at least 8 characters!');return}
+if(!/[0-9]/.test(p)){showError('regError','Password must contain at least 1 number!');return}
+let users=getUsers();
+if(users.find(x=>x.username.toLowerCase()===u.toLowerCase()||x.email.toLowerCase()===e.toLowerCase())){showError('regError','Username or Email already exists! Try login bruh!');return}
+let hashed=await hashPassword(p);
+users.push({username:u,email:e,password:hashed});saveUsers(users);
+showSuccess('regSuccess','Registered Successfully! Redirecting to login...');
+document.getElementById('regUser').value='';document.getElementById('regEmail').value='';document.getElementById('regPass').value='';
+setTimeout(()=>showPage('loginPage'),1500);
+}
+async function login(){
+let input=document.getElementById('loginUser').value.trim();
+let p=document.getElementById('loginPass').value;
+hideError('loginError');
+if(!input||!p){showError('loginError','Please fill all fields!');return}
+let users=getUsers();let hashed=await hashPassword(p);
+let user=users.find(u=>(u.username.toLowerCase()===input.toLowerCase()||u.email.toLowerCase()===input.toLowerCase())&&u.password===hashed);
+if(!user){showError('loginError','Invalid username/email or password!');return}
+let session={username:user.username,email:user.email,loginTime:new Date().toLocaleString()};
+localStorage.setItem('sessionUser',JSON.stringify(session));showDashboard(session);
+}
+function showDashboard(s){
+showPage('dashboardPage');
+document.getElementById('welcomeText').innerText='Welcome, '+s.username+'!';
+document.getElementById('dashUser').innerText=s.username;
+document.getElementById('dashEmail').innerText=s.email;
+document.getElementById('dashTime').innerText=s.loginTime;
+document.getElementById('userAvatar').innerText=s.username.charAt(0).toUpperCase();
+}
+function logout(){localStorage.removeItem('sessionUser');document.getElementById('loginUser').value='';document.getElementById('loginPass').value='';showPage('loginPage');showSuccess('loginSuccess','Logged out successfully!')}
+</script>
+</body>
+</html>
