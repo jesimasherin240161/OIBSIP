@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Temperature Converter | OIBSIP Task 3</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+body{background:linear-gradient(135deg,#2563eb,#06b6d4,#10b981);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;}
+.box{background:#fff;width:100%;max-width:420px;padding:32px;border-radius:20px;box-shadow:0 20px 40px rgba(0,0,0,0.25);text-align:center;}
+.box h1{font-size:26px;color:#1e40af;margin-bottom:6px;}
+.box p{color:#64748b;font-size:14px;margin-bottom:22px;}
+label{display:block;text-align:left;font-weight:600;font-size:14px;margin:14px 0 6px;color:#334155;}
+input,select{width:100%;padding:12px;border:2px solid #e2e8f0;border-radius:10px;outline:none;font-size:16px;}
+input:focus,select:focus{border-color:#06b6d4;}
+button{width:100%;margin-top:22px;padding:14px;background:linear-gradient(135deg,#2563eb,#06b6d4,#10b981);color:#fff;border:none;border-radius:10px;font-size:16px;font-weight:700;cursor:pointer;}
+#result{margin-top:20px;background:#f0f9ff;padding:16px;border-radius:12px;font-weight:600;color:#0f172a;line-height:1.8;display:none;}
+small{display:block;margin-top:16px;color:#94a3b8;font-size:12px;}
+</style>
+</head>
+<body>
+<div class="box">
+  <h1>🌡️ Temp Converter</h1>
+  <p>Convert Celsius, Fahrenheit & Kelvin instantly</p>
+
+  <label>Enter Temperature</label>
+  <input type="number" id="temp" placeholder="e.g. 25">
+
+  <label>From</label>
+  <select id="from">
+    <option value="c">Celsius (°C)</option>
+    <option value="f">Fahrenheit (°F)</option>
+    <option value="k">Kelvin (K)</option>
+  </select>
+
+  <label>To</label>
+  <select id="to">
+    <option value="f">Fahrenheit (°F)</option>
+    <option value="c">Celsius (°C)</option>
+    <option value="k">Kelvin (K)</option>
+  </select>
+
+  <button onclick="convert()">Convert</button>
+
+  <div id="result"></div>
+  <small>OIBSIP - Web Dev Level 1 Task 3 | Built with HTML, CSS & JS</small>
+</div>
+
+<script>
+function convert(){
+  let t = parseFloat(document.getElementById("temp").value);
+  let from = document.getElementById("from").value;
+  let to = document.getElementById("to").value;
+  let res = document.getElementById("result");
+  if(isNaN(t)){ res.style.display="block"; res.innerHTML="Please enter a temperature!"; return; }
+  let c;
+  if(from==="c") c=t;
+  if(from==="f") c=(t-32)*5/9;
+  if(from==="k") c=t-273.15;
+  let out;
+  if(to==="c") out=c;
+  if(to==="f") out=(c*9/5)+32;
+  if(to==="k") out=c+273.15;
+  res.style.display="block";
+  res.innerHTML = t + "° " + from.toUpperCase() + " = <br><b style='font-size:22px;color:#2563eb'>" + out.toFixed(2) + "° " + to.toUpperCase() + "</b>";
+}
+</script>
+</body>
+</html>
