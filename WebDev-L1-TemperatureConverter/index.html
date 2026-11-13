@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Temperature Converter</title>
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+  body { background: #6a5acd; min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px; }
+  .box { background: white; width: 100%; max-width: 420px; padding: 30px; border-radius: 15px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+  h1 { margin-bottom: 5px; color: #333; }
+  p { color: #777; margin-bottom: 20px; font-size: 14px; }
+  label { display: block; text-align: left; margin: 12px 0 5px; font-weight: bold; color: #333; font-size: 14px; }
+  input, select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; outline: none; }
+  input:focus, select:focus { border-color: #6a5acd; }
+  button { width: 100%; padding: 13px; margin-top: 20px; background: #6a5acd; color: white; border: none; border-radius: 8px; font-size: 17px; font-weight: bold; cursor: pointer; }
+  button:hover { background: #5a4abd; }
+  #result { margin-top: 20px; background: #f0efff; padding: 15px; border-radius: 8px; font-size: 18px; font-weight: bold; color: #333; min-height: 50px; display: flex; align-items: center; justify-content: center; }
+</style>
+</head>
+<body>
+  <div class="box">
+    <h1>🌡️ Temperature Converter</h1>
+    <p>Convert Celsius, Fahrenheit & Kelvin</p>
+
+    <label>Enter Temperature</label>
+    <input type="number" id="temp" placeholder="Ex: 100">
+
+    <label>From</label>
+    <select id="from">
+      <option value="celsius">Celsius (°C)</option>
+      <option value="fahrenheit">Fahrenheit (°F)</option>
+      <option value="kelvin">Kelvin (K)</option>
+    </select>
+
+    <label>To</label>
+    <select id="to">
+      <option value="fahrenheit">Fahrenheit (°F)</option>
+      <option value="celsius">Celsius (°C)</option>
+      <option value="kelvin">Kelvin (K)</option>
+    </select>
+
+    <button onclick="convert()">Convert</button>
+
+    <div id="result">Result will show here</div>
+  </div>
+
+<script>
+function convert() {
+  let value = parseFloat(document.getElementById("temp").value);
+  let from = document.getElementById("from").value;
+  let to = document.getElementById("to").value;
+  let resultBox = document.getElementById("result");
+
+  if (isNaN(value)) {
+    resultBox.innerText = "Please enter a temperature!";
+    return;
+  }
+
+  let celsius = value;
+  if (from === "fahrenheit") celsius = (value - 32) * 5 / 9;
+  if (from === "kelvin") celsius = value - 273.15;
+
+  let final = celsius;
+  let symbol = "°C";
+  if (to === "fahrenheit") { final = (celsius * 9 / 5) + 32; symbol = "°F"; }
+  if (to === "kelvin") { final = celsius + 273.15; symbol = "K"; }
+
+  resultBox.innerText = "Result: " + final.toFixed(2) + " " + symbol;
+}
+</script>
+</body>
+</html>
