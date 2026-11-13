@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculator - Jesima Sherin</title>
+<style>
+*{box-sizing:border-box;font-family:'Segoe UI',sans-serif}
+body{background:#0f172a;display:flex;justify-content:center;align-items:center;min-height:100vh;margin:0}
+.calc{background:#1e293b;padding:22px;border-radius:20px;width:330px;box-shadow:0 20px 40px rgba(0,0,0,.4)}
+h2{color:#fff;text-align:center;margin:0 0 12px;font-size:18px}
+#display{background:#0f172a;color:#fff;font-size:32px;text-align:right;padding:18px 14px;border-radius:12px;min-height:68px;overflow:hidden;word-break:break-all}
+#history{color:#94a3b8;font-size:13px;text-align:right;min-height:18px;margin-top:6px}
+.buttons{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}
+button{padding:16px 0;font-size:19px;border:none;border-radius:12px;cursor:pointer;background:#334155;color:#fff}
+button:hover{opacity:.85}
+.op{background:#f59e0b}
+.equal{background:#22c55e;grid-column:span 2}
+.clear{background:#ef4444}
+.del{background:#64748b}
+.zero{grid-column:span 2}
+</style>
+</head>
+<body>
+<div class="calc">
+<h2>Calculator</h2>
+<div id="history"></div>
+<div id="display">0</div>
+<div class="buttons">
+<button class="clear" data-val="C">C</button>
+<button class="del" data-val="DEL">⌫</button>
+<button class="op" data-val="/">÷</button>
+<button class="op" data-val="*">×</button>
+<button data-val="7">7</button>
+<button data-val="8">8</button>
+<button data-val="9">9</button>
+<button class="op" data-val="-">−</button>
+<button data-val="4">4</button>
+<button data-val="5">5</button>
+<button data-val="6">6</button>
+<button class="op" data-val="+">+</button>
+<button data-val="1">1</button>
+<button data-val="2">2</button>
+<button data-val="3">3</button>
+<button class="equal" data-val="=">=</button>
+<button class="zero" data-val="0">0</button>
+<button data-val=".">.</button>
+</div>
+</div>
+<script>
+const display = document.getElementById('display');
+const history = document.getElementById('history');
+let current = '0';
+let previous = '';
+let operator = null;
+let justCalculated = false;
+function update(){
+  display.textContent = current;
+  history.textContent = previous + (operator ? ' ' + operator : '');
+}
+function calculate(){
+  const a = parseFloat(previous);
+  const b = parseFloat(current);
+  if(isNaN(a) || isNaN(b)) return;
+  let result;
+  if(operator === '+') result = a + b;
+  if(operator === '-') result = a - b;
+  if(operator === '*') result = a * b;
+  if(operator === '/'){
+    if(b === 0){ current = 'Error: Cannot divide by 0'; previous=''; operator=null; update(); return; }
+    result = a / b;
+  }
+  current = String(Math.round(result * 100000000) / 100000000);
+  previous = ''; operator = null; justCalculated = true;
+}
+document.querySelectorAll('button').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    const val = btn.dataset.val;
+    if(val === 'C'){ current='0'; previous=''; operator=null; }
+    else if(val === 'DEL'){ current = current.length > 1 ? current.slice(0,-1) : '0'; }
+    else if(val === '='){ if(operator) calculate(); }
+    else if(['+','-','*','/'].includes(val)){
+      if(operator) calculate();
+      previous = current; operator = val; current = '0';
+    }
+    else{
+      if(justCalculated){ current='0'; justCalculated=false; }
+      if(val === '.' && current.includes('.')) return;
+      current = current === '0' && val !== '.' ? val : current + val;
+    }
+    update();
+  });
+});
+update();
+</script>
+</body>
+</html>
