@@ -1,25 +1,69 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>My Landing Page</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BrandCo - Landing Page | OIBSIP Task 1</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-body{margin:0;font-family:Arial;text-align:center}
-nav{background:#111;color:#fff;padding:15px}
-.hero{background:#ff6b6b;color:#fff;padding:80px 20px}
-button{padding:12px 25px;border:none;border-radius:20px}
-section{padding:40px}
-footer{background:#111;color:#fff;padding:20px}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+body{background:#f0f9ff;color:#1e293b;}
+.navbar{position:sticky;top:0;background:linear-gradient(135deg,#2563eb,#06b6d4,#10b981);color:#fff;display:flex;justify-content:space-between;align-items:center;padding:16px 32px;z-index:100;box-shadow:0 4px 20px rgba(0,0,0,0.15);}
+.navbar ul{display:flex;list-style:none;gap:24px;}
+.navbar a{color:#fff;text-decoration:none;font-weight:600;}
+.logo{font-size:24px;font-weight:700;}
+.hero{padding:110px 20px;text-align:center;background:linear-gradient(135deg,#2563eb,#06b6d4,#10b981);color:#fff;}
+.hero h1{font-size:46px;margin-bottom:12px;}
+.hero p{font-size:18px;max-width:600px;margin:0 auto 28px;opacity:0.95;}
+.cta{background:#fff;color:#2563eb;padding:14px 32px;border-radius:30px;text-decoration:none;font-weight:700;display:inline-block;box-shadow:0 8px 20px rgba(0,0,0,0.2);}
+.features{display:flex;gap:24px;padding:70px 32px;flex-wrap:wrap;justify-content:center;background:#fff;}
+.card{background:#f0f9ff;padding:28px;border-radius:16px;width:300px;box-shadow:0 6px 18px rgba(0,0,0,0.08);border-top:4px solid #06b6d4;}
+.card h3{margin-bottom:8px;color:#2563eb;}
+.about{padding:70px 32px;background:#e0f2fe;text-align:center;}
+.about h2{font-size:32px;margin-bottom:12px;color:#1e40af;}
+footer{background:#0f172a;color:#cbd5e1;text-align:center;padding:28px;line-height:1.8;}
+@media(max-width:650px){.features{flex-direction:column;align-items:center;}.hero h1{font-size:30px;}.navbar{flex-direction:column;gap:10px;}}
 </style>
 </head>
 <body>
-<nav><b>MY BRAND</b></nav>
-<div class="hero">
-<h1>Welcome to My Brand</h1>
-<p>Best service for you</p>
-<button>Get Started</button>
-</div>
-<section><h2>Features</h2><p>Fast | Simple | Beautiful</p></section>
-<section><h2>About Us</h2><p>We build amazing websites.</p></section>
-<footer>Contact: hello@gmail.com</footer>
+<nav class="navbar">
+  <div class="logo">BrandCo</div>
+  <ul>
+    <li><a href="#hero">Home</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#about">About</a></li>
+  </ul>
+</nav>
+
+<section id="hero" class="hero">
+  <h1>Build Your Brand Faster</h1>
+  <p>Simple, polished landing pages that convert visitors into customers with clean HTML5 & CSS3.</p>
+  <a href="#features" class="cta">Get Started</a>
+</section>
+
+<section id="features" class="features">
+  <div class="card">
+    <h3>Fast Setup</h3>
+    <p>Launch in minutes with clean, semantic code. No frameworks needed.</p>
+  </div>
+  <div class="card">
+    <h3>Fully Responsive</h3>
+    <p>Looks perfect on mobile, tablet & desktop using Flexbox & Grid.</p>
+  </div>
+  <div class="card">
+    <h3>Modern UI</h3>
+    <p>Consistent colour palette, spacing and typography for premium feel.</p>
+  </div>
+</section>
+
+<section id="about" class="about">
+  <h2>About BrandCo</h2>
+  <p>We help startups create landing pages that actually convert. Built as part of OASIS INFOBYTE Web Development Level 1 Task 1.</p>
+</section>
+
+<footer>
+  <p>Contact: hello@brandco.com | LinkedIn | GitHub | Instagram</p>
+  <p>© 2026 BrandCo - OIBSIP</p>
+</footer>
 </body>
 </html>
